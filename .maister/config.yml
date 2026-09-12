@@ -1,0 +1,5 @@
+# Maister project configuration for Cursor.
+documentation_root: .maister/docs
+standards_root: .maister/docs/standards
+require_evidence_for_detected_conventions: true
+update_index_on_refresh: true
