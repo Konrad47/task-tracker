@@ -2,7 +2,9 @@
   "name": "task-tracker",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter @task-tracker/shared build && pnpm -r --parallel --filter \"./apps/**\" dev",
+    "dev:mongo": "docker compose up -d mongo --wait",
+    "dev:apps": "pnpm --filter @task-tracker/shared build && pnpm -r --parallel --filter \"./apps/**\" dev",
+    "dev": "pnpm run dev:mongo && pnpm run dev:apps",
     "build": "pnpm --filter @task-tracker/shared build && pnpm -r --filter \"./apps/**\" build",
     "lint": "pnpm -r --filter \"./apps/**\" lint",
     "typecheck": "pnpm --filter @task-tracker/shared build && pnpm -r typecheck",
