@@ -30,7 +30,7 @@ The repository is a practice project whose immediate goal is a provisioned, cont
 
 ## Differentiators
 
-Practice-oriented: modern tools and feature-based layout over product uniqueness. Real auth, CI, web/e2e tests, and extra task fields are deferred; the API has Jest unit tests.
+Practice-oriented: modern tools and feature-based layout over product uniqueness. Real auth, CI, e2e tests, and extra task fields are deferred; the API has Jest unit tests and the web app has Vitest unit tests.
 
 ---
 
