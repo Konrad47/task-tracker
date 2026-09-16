@@ -30,10 +30,7 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
-  list(
-    @CurrentUserParam() user: CurrentUser,
-    @Query('status') status?: string,
-  ) {
+  list(@CurrentUserParam() user: CurrentUser, @Query('status') status?: string) {
     if (!status) {
       return this.tasksService.list(user.id);
     }

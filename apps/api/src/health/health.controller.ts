@@ -8,10 +8,7 @@ export class HealthController {
 
   @Get()
   async check() {
-    if (
-      this.connection.readyState !== ConnectionStates.connected ||
-      !this.connection.db
-    ) {
+    if (this.connection.readyState !== ConnectionStates.connected || !this.connection.db) {
       throw new ServiceUnavailableException({
         status: 'error',
         mongo: 'disconnected',

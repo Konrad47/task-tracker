@@ -8,6 +8,7 @@
     "build": "pnpm --filter @task-tracker/shared build && pnpm -r --filter \"./apps/**\" build",
     "lint": "pnpm -r --filter \"./apps/**\" lint",
     "typecheck": "pnpm --filter @task-tracker/shared build && pnpm -r typecheck",
+    "test": "pnpm -r --filter \"./apps/**\" test",
     "format": "prettier --write ."
   },
   "devDependencies": {
@@ -17,5 +18,12 @@
   "packageManager": "pnpm@10.34.5",
   "engines": {
     "node": ">=20"
+  },
+  "pnpm": {
+    "overrides": {
+      "@nestjs/common": "11.2.3",
+      "@nestjs/core": "11.2.3",
+      "@nestjs/platform-express": "11.2.3"
+    }
   }
 }

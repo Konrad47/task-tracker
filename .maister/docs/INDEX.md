@@ -1,13 +1,13 @@
 # Maister knowledge base
 
-Last refreshed: 2026-09-12 (after fullstack provision).
+Last refreshed: 2026-09-16 (ESLint and Prettier standards).
 
 ## Project
 
 - [Vision](project/vision.md) — practice fullstack tracker; Docker slice; stub auth.
 - [Technology stack](project/tech-stack.md) — pinned versions from manifests (Next 16, Nest 11, Mongo 7, pnpm 10).
 - [Architecture](project/architecture.md) — monorepo boundaries, REST flow, Compose.
-- [Roadmap](project/roadmap.md) — MVP provision complete; auth/tests/CI deferred.
+- [Roadmap](project/roadmap.md) — MVP provision complete; real auth, e2e, and CI deferred; API Jest and web Vitest unit tests in place.
 
 ## Standards
 
@@ -15,4 +15,4 @@ Last refreshed: 2026-09-12 (after fullstack provision).
 - [Frontend](standards/frontend/conventions.md)
 - [Backend](standards/backend/conventions.md)
 
-Testing standards are omitted: automated tests remain out of scope.
+Testing: API Jest (`pnpm --filter @task-tracker/api test`) and web Vitest (`pnpm --filter @task-tracker/web test`). Root `pnpm test` runs both. E2e and CI remain deferred.
