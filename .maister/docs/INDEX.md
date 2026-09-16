@@ -1,6 +1,6 @@
 # Maister knowledge base
 
-Last refreshed: 2026-09-16 (web unit tests).
+Last refreshed: 2026-09-16 (ESLint and Prettier standards).
 
 ## Project
 

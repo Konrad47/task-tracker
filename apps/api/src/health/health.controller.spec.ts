@@ -1,5 +1,5 @@
 import { ServiceUnavailableException } from '@nestjs/common';
-import { Connection, ConnectionStates } from 'mongoose';
+import { type Connection, ConnectionStates } from 'mongoose';
 import { HealthController } from './health.controller';
 
 function createConnection(options: {
@@ -31,9 +31,7 @@ describe('HealthController', () => {
       createConnection({ readyState: ConnectionStates.disconnected }),
     );
 
-    await expect(controller.check()).rejects.toBeInstanceOf(
-      ServiceUnavailableException,
-    );
+    await expect(controller.check()).rejects.toBeInstanceOf(ServiceUnavailableException);
 
     try {
       await controller.check();
@@ -52,8 +50,6 @@ describe('HealthController', () => {
       }),
     );
 
-    await expect(controller.check()).rejects.toBeInstanceOf(
-      ServiceUnavailableException,
-    );
+    await expect(controller.check()).rejects.toBeInstanceOf(ServiceUnavailableException);
   });
 });

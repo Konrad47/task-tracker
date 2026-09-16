@@ -1,4 +1,4 @@
-import { ConfigService } from '@nestjs/config';
+import { type ConfigService } from '@nestjs/config';
 import type { IncomingMessage } from 'node:http';
 import { createPinoHttpOptions } from './pino-http.options';
 
@@ -24,27 +24,19 @@ describe('createPinoHttpOptions', () => {
   });
 
   it('enables pino-pretty outside production', () => {
-    const options = createPinoHttpOptions(
-      createConfig({ NODE_ENV: 'development' }),
-    );
-    expect(options.transport).toEqual(
-      expect.objectContaining({ target: 'pino-pretty' }),
-    );
+    const options = createPinoHttpOptions(createConfig({ NODE_ENV: 'development' }));
+    expect(options.transport).toEqual(expect.objectContaining({ target: 'pino-pretty' }));
   });
 
   it('omits pretty transport in production', () => {
-    const options = createPinoHttpOptions(
-      createConfig({ NODE_ENV: 'production' }),
-    );
+    const options = createPinoHttpOptions(createConfig({ NODE_ENV: 'production' }));
     expect(options.transport).toBeUndefined();
   });
 
   it('skips HTTP auto-logging for /api/health including query strings', () => {
     const options = createPinoHttpOptions(createConfig({}));
     const ignore =
-      options.autoLogging &&
-      typeof options.autoLogging === 'object' &&
-      options.autoLogging.ignore;
+      options.autoLogging && typeof options.autoLogging === 'object' && options.autoLogging.ignore;
 
     expect(typeof ignore).toBe('function');
     if (typeof ignore !== 'function') {

@@ -21,10 +21,7 @@ import { TasksModule } from './tasks/tasks.module';
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>(
-          'MONGODB_URI',
-          'mongodb://localhost:27017/task-tracker',
-        ),
+        uri: config.get<string>('MONGODB_URI', 'mongodb://localhost:27017/task-tracker'),
       }),
     }),
     AuthModule,

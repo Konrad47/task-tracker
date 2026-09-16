@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { TasksController } from './tasks.controller';
-import { TasksService } from './tasks.service';
+import { type TasksService } from './tasks.service';
 
 describe('TasksController', () => {
   const user = { id: 'user-1' };
@@ -13,9 +13,7 @@ describe('TasksController', () => {
       update: jest.fn(),
       remove: jest.fn(),
     };
-    const controller = new TasksController(
-      tasksService as unknown as TasksService,
-    );
+    const controller = new TasksController(tasksService as unknown as TasksService);
     return { controller, tasksService };
   }
 

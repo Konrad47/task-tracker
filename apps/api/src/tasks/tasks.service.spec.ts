@@ -1,8 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
-import { Model, Types } from 'mongoose';
-import { PinoLogger } from 'nestjs-pino';
+import { type Model, Types } from 'mongoose';
+import { type PinoLogger } from 'nestjs-pino';
 import { TasksService } from './tasks.service';
-import { TaskDocument } from './task.schema';
+import { type TaskDocument } from './task.schema';
 
 const CREATED_AT = new Date('2026-01-01T00:00:00.000Z');
 const UPDATED_OLDER = new Date('2026-02-01T00:00:00.000Z');
@@ -75,11 +75,7 @@ function createInMemoryTaskModel(seed: StoredTask[] = []) {
               return Promise.resolve(
                 docs
                   .filter((row) => matches(row, filter))
-                  .sort(
-                    (a, b) =>
-                      direction *
-                      (a.updatedAt.getTime() - b.updatedAt.getTime()),
-                  )
+                  .sort((a, b) => direction * (a.updatedAt.getTime() - b.updatedAt.getTime()))
                   .map(toDoc),
               );
             },
@@ -95,12 +91,7 @@ function createInMemoryTaskModel(seed: StoredTask[] = []) {
         },
       };
     },
-    create(input: {
-      title: string;
-      description: string | null;
-      status: string;
-      userId: string;
-    }) {
+    create(input: { title: string; description: string | null; status: string; userId: string }) {
       const row: StoredTask = {
         _id: new Types.ObjectId(),
         title: input.title,
@@ -113,10 +104,7 @@ function createInMemoryTaskModel(seed: StoredTask[] = []) {
       docs.push(row);
       return Promise.resolve(toDoc(row));
     },
-    findOneAndUpdate(
-      filter: Record<string, unknown>,
-      update: Record<string, unknown>,
-    ) {
+    findOneAndUpdate(filter: Record<string, unknown>, update: Record<string, unknown>) {
       return {
         exec() {
           const row = docs.find((item) => matches(item, filter));
@@ -162,9 +150,7 @@ function createService(seed: StoredTask[] = []) {
   return { service, logger };
 }
 
-function seedTask(
-  overrides: Partial<StoredTask> & { userId: string },
-): StoredTask {
+function seedTask(overrides: Partial<StoredTask> & { userId: string }): StoredTask {
   return {
     _id: overrides._id ?? new Types.ObjectId(),
     title: overrides.title ?? 'Task',
@@ -242,32 +228,18 @@ describe('TasksService', () => {
 
   it('treats another user’s task as not found', async () => {
     const id = new Types.ObjectId();
-    const { service, logger } = createService([
-      seedTask({ _id: id, userId: otherUserId }),
-    ]);
+    const { service, logger } = createService([seedTask({ _id: id, userId: otherUserId })]);
 
-    await expect(service.getById(userId, String(id))).rejects.toBeInstanceOf(
-      NotFoundException,
-    );
-    await expect(service.getById(userId, String(id))).rejects.toThrow(
-      'Task not found',
-    );
-    expect(logger.warn).toHaveBeenCalledWith(
-      { userId, taskId: String(id) },
-      'Task not found',
-    );
+    await expect(service.getById(userId, String(id))).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.getById(userId, String(id))).rejects.toThrow('Task not found');
+    expect(logger.warn).toHaveBeenCalledWith({ userId, taskId: String(id) }, 'Task not found');
   });
 
   it('treats an invalid id as not found', async () => {
     const { service, logger } = createService([]);
 
-    await expect(service.getById(userId, 'not-an-id')).rejects.toThrow(
-      NotFoundException,
-    );
-    expect(logger.warn).toHaveBeenCalledWith(
-      { userId, taskId: 'not-an-id' },
-      'Task not found',
-    );
+    await expect(service.getById(userId, 'not-an-id')).rejects.toThrow(NotFoundException);
+    expect(logger.warn).toHaveBeenCalledWith({ userId, taskId: 'not-an-id' }, 'Task not found');
   });
 
   it('creates a task with default status todo and null blank description', async () => {
@@ -283,10 +255,7 @@ describe('TasksService', () => {
     expect(result.description).toBeNull();
     expect(result.userId).toBe(userId);
     expect(result.createdAt).toBe(CREATE_STAMP.toISOString());
-    expect(logger.info).toHaveBeenCalledWith(
-      { userId, taskId: result.id },
-      'Task created',
-    );
+    expect(logger.info).toHaveBeenCalledWith({ userId, taskId: result.id }, 'Task created');
   });
 
   it('updates a owned task and logs the change', async () => {
@@ -308,10 +277,7 @@ describe('TasksService', () => {
       status: 'done',
       updatedAt: UPDATE_STAMP.toISOString(),
     });
-    expect(logger.info).toHaveBeenCalledWith(
-      { userId, taskId: String(id) },
-      'Task updated',
-    );
+    expect(logger.info).toHaveBeenCalledWith({ userId, taskId: String(id) }, 'Task updated');
   });
 
   it('does not update another user’s task', async () => {
@@ -320,9 +286,9 @@ describe('TasksService', () => {
       seedTask({ _id: id, userId: otherUserId, title: 'Secret' }),
     ]);
 
-    await expect(
-      service.update(userId, String(id), { title: 'Hijack' }),
-    ).rejects.toThrow(NotFoundException);
+    await expect(service.update(userId, String(id), { title: 'Hijack' })).rejects.toThrow(
+      NotFoundException,
+    );
 
     const stillThere = await service.getById(otherUserId, String(id));
     expect(stillThere.title).toBe('Secret');
@@ -333,27 +299,15 @@ describe('TasksService', () => {
     const { service, logger } = createService([seedTask({ _id: id, userId })]);
 
     await expect(service.remove(userId, String(id))).resolves.toBeUndefined();
-    await expect(service.getById(userId, String(id))).rejects.toThrow(
-      NotFoundException,
-    );
-    expect(logger.info).toHaveBeenCalledWith(
-      { userId, taskId: String(id) },
-      'Task deleted',
-    );
+    await expect(service.getById(userId, String(id))).rejects.toThrow(NotFoundException);
+    expect(logger.info).toHaveBeenCalledWith({ userId, taskId: String(id) }, 'Task deleted');
   });
 
   it('does not delete another user’s task', async () => {
     const id = new Types.ObjectId();
-    const { service, logger } = createService([
-      seedTask({ _id: id, userId: otherUserId }),
-    ]);
+    const { service, logger } = createService([seedTask({ _id: id, userId: otherUserId })]);
 
-    await expect(service.remove(userId, String(id))).rejects.toThrow(
-      NotFoundException,
-    );
-    expect(logger.warn).toHaveBeenCalledWith(
-      { userId, taskId: String(id) },
-      'Task not found',
-    );
+    await expect(service.remove(userId, String(id))).rejects.toThrow(NotFoundException);
+    expect(logger.warn).toHaveBeenCalledWith({ userId, taskId: String(id) }, 'Task not found');
   });
 });

@@ -24,10 +24,7 @@ export class TasksService {
     if (status) {
       filter.status = status;
     }
-    const tasks = await this.taskModel
-      .find(filter)
-      .sort({ updatedAt: -1 })
-      .exec();
+    const tasks = await this.taskModel.find(filter).sort({ updatedAt: -1 }).exec();
     return tasks.map((task) => this.toDto(task));
   }
 
@@ -53,11 +50,7 @@ export class TasksService {
     return dto;
   }
 
-  async update(
-    userId: string,
-    id: string,
-    input: UpdateTaskInput,
-  ): Promise<TaskDto> {
+  async update(userId: string, id: string, input: UpdateTaskInput): Promise<TaskDto> {
     this.assertId(userId, id);
     const update: Record<string, unknown> = {};
     if (input.title !== undefined) {
@@ -84,9 +77,7 @@ export class TasksService {
 
   async remove(userId: string, id: string): Promise<void> {
     this.assertId(userId, id);
-    const result = await this.taskModel
-      .findOneAndDelete({ _id: id, userId })
-      .exec();
+    const result = await this.taskModel.findOneAndDelete({ _id: id, userId }).exec();
     if (!result) {
       this.logNotFound(userId, id);
       throw new NotFoundException('Task not found');

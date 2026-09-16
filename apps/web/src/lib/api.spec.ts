@@ -18,13 +18,7 @@ describe('api client', () => {
     vi.restoreAllMocks();
   });
 
-  function stubFetch(
-    response: {
-      ok: boolean;
-      status: number;
-      json: () => Promise<unknown>;
-    },
-  ) {
+  function stubFetch(response: { ok: boolean; status: number; json: () => Promise<unknown> }) {
     const fetchMock = vi.fn().mockResolvedValue(response);
     vi.stubGlobal('fetch', fetchMock);
     return fetchMock;
@@ -52,12 +46,8 @@ describe('api client', () => {
     await fetchTasks('done');
     await fetchTasks('all');
 
-    expect(fetchMock.mock.calls[0]?.[0]).toBe(
-      `${API_BASE}${API_ROUTES.tasks}?status=done`,
-    );
-    expect(fetchMock.mock.calls[1]?.[0]).toBe(
-      `${API_BASE}${API_ROUTES.tasks}`,
-    );
+    expect(fetchMock.mock.calls[0]?.[0]).toBe(`${API_BASE}${API_ROUTES.tasks}?status=done`);
+    expect(fetchMock.mock.calls[1]?.[0]).toBe(`${API_BASE}${API_ROUTES.tasks}`);
   });
 
   it('creates a task with POST and JSON body', async () => {
@@ -109,9 +99,7 @@ describe('api client', () => {
   it('throws the API message when a request fails', async () => {
     stubFetch(jsonResponse({ message: 'Validation failed' }, 400));
 
-    await expect(createTask({ title: 'x' })).rejects.toThrow(
-      'Validation failed',
-    );
+    await expect(createTask({ title: 'x' })).rejects.toThrow('Validation failed');
   });
 
   it('throws a status fallback when the error body has no message', async () => {

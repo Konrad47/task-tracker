@@ -7,7 +7,8 @@
 
 ## Formatting and types
 
-- **Required**: Prettier (API ESLint prettier plugin); ESLint in both apps; TypeScript strict in web and API (API `strictPropertyInitialization` is false).
+- **Required**: Prettier at the repo root (`.prettierrc.json`, `endOfLine: lf`). Both apps run Prettier through ESLint. ESLint in both apps; TypeScript strict in web and API (API `strictPropertyInitialization` is false).
+- **Established**: line endings LF (`.gitattributes`).
 - **Recommended**: do not format files you are not changing.
 
 ## Dependencies

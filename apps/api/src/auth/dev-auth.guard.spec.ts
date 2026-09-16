@@ -1,5 +1,5 @@
-import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { type ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { type ConfigService } from '@nestjs/config';
 import { DevAuthGuard } from './dev-auth.guard';
 
 function createContext(headers: Record<string, string | string[] | undefined>) {
@@ -54,8 +54,6 @@ describe('DevAuthGuard', () => {
     const { context } = createContext({});
 
     expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
-    expect(() => guard.canActivate(context)).toThrow(
-      'DEV_USER_ID is not configured',
-    );
+    expect(() => guard.canActivate(context)).toThrow('DEV_USER_ID is not configured');
   });
 });

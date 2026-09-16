@@ -36,9 +36,7 @@ describe('TaskCard', () => {
 
     expect(screen.getByRole('heading', { name: 'Write tests' })).toBeInTheDocument();
     expect(screen.getByText('Cover the board')).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Change status' })).toHaveValue(
-      'todo',
-    );
+    expect(screen.getByRole('combobox', { name: 'Change status' })).toHaveValue('todo');
   });
 
   it('saves edits for that task', async () => {

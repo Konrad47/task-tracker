@@ -73,8 +73,6 @@ describe('TaskCreateForm', () => {
     await user.type(screen.getByLabelText('Title'), 'Ship it');
     await user.click(screen.getByRole('button', { name: 'Create task' }));
 
-    expect(
-      await screen.findByRole('button', { name: 'Saving…' }),
-    ).toBeDisabled();
+    expect(await screen.findByRole('button', { name: 'Saving…' })).toBeDisabled();
   });
 });

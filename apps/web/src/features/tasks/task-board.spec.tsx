@@ -49,18 +49,14 @@ describe('TaskBoard', () => {
     fetchTasksMock.mockResolvedValue([]);
     renderWithQueryClient(<TaskBoard />);
 
-    expect(
-      await screen.findByText('No tasks in this view yet.'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('No tasks in this view yet.')).toBeInTheDocument();
   });
 
   it('renders loaded task titles', async () => {
     fetchTasksMock.mockResolvedValue([sampleTask]);
     renderWithQueryClient(<TaskBoard />);
 
-    expect(
-      await screen.findByRole('heading', { name: 'Board item' }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Board item' })).toBeInTheDocument();
   });
 
   it('refetches with the selected status filter', async () => {

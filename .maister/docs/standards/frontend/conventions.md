@@ -20,6 +20,7 @@
 
 - **Established**: Vitest unit tests colocated as `*.spec.ts` / `*.spec.tsx` under `apps/web/src`. Run with `pnpm --filter @task-tracker/web test`.
 - **Required**: assert observable behavior (fetch URLs/methods, form and filter outcomes, loading/empty/error copy). Query by accessible name. Mock `fetch` / `@/lib/api`. Fresh QueryClient per test (`retry: false`). Do not assert CSS classes or shadcn internals.
+- **Established**: ESLint uses Next core-web-vitals plus Prettier; specs also use Testing Library, jest-dom, and Vitest plugins.
 - **Out of scope**: Playwright/e2e; page/layout/providers wiring; UI primitives.
 
 ## Accessibility

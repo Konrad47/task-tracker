@@ -60,9 +60,7 @@ export function TaskCreateForm() {
             ))}
           </Select>
         </div>
-        {mutation.error ? (
-          <p className="text-sm text-red-600">{mutation.error.message}</p>
-        ) : null}
+        {mutation.error ? <p className="text-sm text-red-600">{mutation.error.message}</p> : null}
         <Button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? 'Saving…' : 'Create task'}
         </Button>

@@ -67,7 +67,7 @@ Local Docker / local Node.
 
 ## Development Tools
 
-- ESLint 9 and Prettier 3.
+- ESLint 9 and Prettier 3 (root `.prettierrc.json`, LF). API: type-checked `typescript-eslint`. Web: Next core-web-vitals plus Testing Library / jest-dom / Vitest on specs.
 - TypeScript strict mode (`apps/web` tsconfig `strict`; `apps/api` `strict` with `strictPropertyInitialization` false for Nest decorators). API compiler options include `rootDir: src` and `types: ["node", "jest"]`.
 
 ## Key Dependencies
