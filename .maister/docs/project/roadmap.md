@@ -11,18 +11,19 @@ This roadmap outlines planned work for Task Tracker. It does not invent calendar
 - [x] **Verification** — compose up, health, CRUD in the UI, typecheck and lint
 - [x] **API unit tests** — colocated Jest specs; no live Mongo
 - [x] **Web unit tests** — colocated Vitest specs; mocked fetch
+- [x] **GitHub Actions CI** — lint, typecheck, test, build; shared package built first
 
 ## Phase 2: Deferred (explicit non-goals of v1)
 
 - Real authentication (replace the stub guard)
-- API/web e2e, CI, OpenAPI
+- API/web e2e, OpenAPI
 - Extra task fields (tags, due dates, comments)
 - Multi-user permissions
 
 ## Future Enhancements
 
 - Replace stub identity with sessions or JWT without changing the task module boundary
-- Playwright and GitHub Actions when quality gates are requested
+- Playwright when e2e quality gates are requested
 - Expand beyond unit tests (e2e)
 
 ---

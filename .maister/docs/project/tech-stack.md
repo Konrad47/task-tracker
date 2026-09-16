@@ -35,7 +35,7 @@ Task Tracker is a pnpm monorepo. Versions below are from workspace manifests aft
 - Jest 30 + ts-jest + `@nestjs/testing` in `apps/api` for colocated unit specs (`*.spec.ts`).
 - Jest `transformIgnorePatterns` allows compiling ESM `@nestjs/*` and `nestjs-pino` under pnpm.
 - Vitest 5 + Testing Library + jsdom in `apps/web` for colocated unit specs. Vitest is the test runner only; Next.js still compiles the app (no Vite app bundler).
-- Root script `pnpm test` runs both apps. API e2e config exists but is unused. Playwright and CI are still deferred.
+- Root `pnpm lint`, `pnpm test`, `pnpm typecheck`, and `pnpm build` compile `@task-tracker/shared` first. `packages/shared/dist` is gitignored; a clean CI checkout must build it before apps can type-check, lint, or test against the package.
 
 ## Database
 
@@ -59,7 +59,7 @@ Docker Compose services `web`, `api`, `mongo` with healthchecks. Multi-stage Doc
 
 ### CI/CD
 
-Not in this pass.
+GitHub Actions (`.github/workflows/ci.yml`): lint + typecheck, test, then build on `push`/`pull_request` to `main`. Standard `ubuntu-latest` runners.
 
 ### Hosting
 

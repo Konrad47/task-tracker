@@ -13,7 +13,7 @@
 
 ## Dependencies
 
-- **Established**: shared Zod and types in `@task-tracker/shared` (`workspace:*`).
+- **Established**: shared Zod and types in `@task-tracker/shared` (`workspace:*`). Consume `packages/shared/dist` (gitignored); root `lint` / `test` / `typecheck` / `build` compile it first.
 - **Established**: no Vite; Next.js compiles the web app; Nest CLI builds the API.
 
 ## Errors and API
