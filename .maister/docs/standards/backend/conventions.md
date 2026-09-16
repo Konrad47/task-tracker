@@ -11,6 +11,7 @@
 
 - **Established**: Mongoose `Task` schema with timestamps; index on `userId` and `status`.
 - **Established**: MongoDB URI from `MONGODB_URI`.
+- **Established**: pnpm hoists `@nestjs/*` (root `.npmrc` and `pnpm.overrides`) so Nest and `@nestjs/mongoose` share one `@nestjs/core`. Duplicate copies break `ModuleRef` injection.
 
 ## Validation
 
@@ -19,3 +20,4 @@
 ## Observability
 
 - **Established**: `GET /api/health` pings MongoDB. Compose healthcheck uses this endpoint.
+- **Established**: API logs with `nestjs-pino` 4.x (Pino). Stay on 4.x with Nest 11. JSON to stdout when `NODE_ENV=production`; `pino-pretty` otherwise. `LOG_LEVEL` defaults to `info`. HTTP auto-logging skips `/api/health`. Redact `authorization` and `cookie` request headers. Task create/update/delete and not-found are logged in `TasksService`; list is not logged at info.

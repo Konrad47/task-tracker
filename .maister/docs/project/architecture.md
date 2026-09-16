@@ -45,7 +45,7 @@ Task: `title`, `description`, `status` (`todo` | `in_progress` | `done`), `userI
 
 ## Configuration
 
-`.env.example`: `MONGODB_URI`, `PORT`, `DEV_USER_ID`, `CORS_ORIGIN`, `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_DEV_USER_ID`.
+`.env.example`: `MONGODB_URI`, `PORT`, `DEV_USER_ID`, `CORS_ORIGIN`, `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_DEV_USER_ID`, `LOG_LEVEL` (optional `NODE_ENV` for JSON logs).
 
 ## Deployment Architecture
 

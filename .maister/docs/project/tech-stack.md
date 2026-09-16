@@ -28,6 +28,7 @@ Task Tracker is a pnpm monorepo. Versions below are from workspace manifests aft
 - NestJS ^11 (`@nestjs/cli` for build).
 - `@nestjs/mongoose` ^12 and mongoose ^9.
 - Zod validation via `ZodValidationPipe` and `@task-tracker/shared`.
+- Logging: `nestjs-pino` ~4.5, `pino` ^10, `pino-http` ^11; `pino-pretty` as a devDependency. Root `.npmrc` hoists `@nestjs/*` so pnpm does not install duplicate `@nestjs/core`.
 
 ### Testing
 
@@ -70,7 +71,7 @@ Local Docker / local Node.
 
 - `@task-tracker/shared` — Zod 3.25 schemas.
 - Web: Next 16, TanStack Query, RHF, Zod.
-- API: Nest 11, Mongoose 9, Zod.
+- API: Nest 11, Mongoose 9, Zod, nestjs-pino.
 
 ## Version Management
 
@@ -78,6 +79,6 @@ Root `pnpm-lock.yaml`. `packageManager` field: `pnpm@10.34.5`.
 
 ---
 
-*Last Updated*: 2026-09-12
+*Last Updated*: 2026-09-16
 *Auto-detected*: versions from `package.json` files after scaffold
 *User-provided*: stack choices

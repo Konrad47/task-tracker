@@ -1,6 +1,6 @@
 # Maister knowledge base
 
-Last refreshed: 2026-09-12 (after fullstack provision).
+Last refreshed: 2026-09-16 (API Pino logging).
 
 ## Project
 
