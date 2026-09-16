@@ -32,7 +32,9 @@ Task Tracker is a pnpm monorepo. Versions below are from workspace manifests aft
 
 ### Testing
 
-Not in this pass. Nest still ships Jest scripts from the CLI scaffold; they are unused.
+- Jest 30 + ts-jest + `@nestjs/testing` in `apps/api` for colocated unit specs (`*.spec.ts`).
+- Jest `transformIgnorePatterns` allows compiling ESM `@nestjs/*` and `nestjs-pino` under pnpm.
+- Root script `pnpm test` runs `@task-tracker/api` tests. E2e config exists but is unused. Web tests and CI are still deferred.
 
 ## Database
 

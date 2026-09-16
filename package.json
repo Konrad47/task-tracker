@@ -8,6 +8,7 @@
     "build": "pnpm --filter @task-tracker/shared build && pnpm -r --filter \"./apps/**\" build",
     "lint": "pnpm -r --filter \"./apps/**\" lint",
     "typecheck": "pnpm --filter @task-tracker/shared build && pnpm -r typecheck",
+    "test": "pnpm --filter @task-tracker/api test",
     "format": "prettier --write ."
   },
   "devDependencies": {
