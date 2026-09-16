@@ -67,7 +67,7 @@ Local Docker / local Node.
 ## Development Tools
 
 - ESLint 9 and Prettier 3.
-- TypeScript strict mode (`apps/web` tsconfig `strict`; `apps/api` `strict` with `strictPropertyInitialization` false for Nest decorators).
+- TypeScript strict mode (`apps/web` tsconfig `strict`; `apps/api` `strict` with `strictPropertyInitialization` false for Nest decorators). API compiler options include `rootDir: src` and `types: ["node", "jest"]`.
 
 ## Key Dependencies
 

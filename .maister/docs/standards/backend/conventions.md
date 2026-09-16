@@ -19,7 +19,7 @@
 
 ## Testing
 
-- **Established**: Jest unit tests colocated as `*.spec.ts` under `apps/api/src`. Run with `pnpm --filter @task-tracker/api test` or root `pnpm test`.
+- **Established**: Jest unit tests colocated as `*.spec.ts` under `apps/api/src`. Run with `pnpm --filter @task-tracker/api test` or root `pnpm test`. API `tsconfig.json` sets `rootDir` to `src` and `types` to `node` and `jest` so the editor resolves Jest globals; it does not use `baseUrl`.
 - **Required**: assert observable behavior (DTOs, HTTP exceptions, user scoping, validation outcomes, log events). Do not spy on private methods or depend on live Mongo, real clocks, or shared fixtures across tests.
 - **Out of scope**: e2e/supertest against a running API; web tests.
 
