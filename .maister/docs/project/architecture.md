@@ -20,7 +20,7 @@ pnpm monorepo: Next.js client, NestJS REST API, MongoDB. Shared Zod schemas in `
 
 - **Location**: `apps/api/`
 - **Purpose**: REST API, MongoDB, stub identity.
-- **Key files**: `src/health/`, `src/auth/dev-auth.guard.ts`, `src/tasks/`.
+- **Key files**: `src/modules/health/`, `src/modules/auth/`, `src/modules/tasks/`, `src/common/`.
 
 ### Shared contracts (`packages/shared`)
 
@@ -59,4 +59,4 @@ REST:
 
 ---
 
-*Based on implemented source, 2026-09-12.*
+*Based on implemented source, 2026-10-05.*

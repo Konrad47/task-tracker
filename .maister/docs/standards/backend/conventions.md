@@ -2,7 +2,7 @@
 
 ## API
 
-- **Established**: NestJS modules `health`, `auth`, `tasks`.
+- **Established**: Nest feature modules live under `apps/api/src/modules/` (`auth`, `health`, `tasks`). Shared infrastructure stays in `src/common/`. `app.module.ts` and `main.ts` stay at `src/` root.
 - **Established**: global prefix `api` in `main.ts`.
 - **Established**: Health is public; task routes use `DevAuthGuard`.
 - **Established**: task queries and writes are scoped to the stub `userId`.
