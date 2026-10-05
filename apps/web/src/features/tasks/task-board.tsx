@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { fetchTasks } from '@/lib/api';
+import { fetchTasks } from '@/features/tasks/api';
 import { StatusFilterBar } from './status-filter';
 import type { StatusFilter } from './status';
 import { TaskCard } from './task-card';

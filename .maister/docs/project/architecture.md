@@ -14,7 +14,7 @@ pnpm monorepo: Next.js client, NestJS REST API, MongoDB. Shared Zod schemas in `
 
 - **Location**: `apps/web/`
 - **Purpose**: Task CRUD and status filters.
-- **Key files**: `src/app/page.tsx`, `src/features/tasks/`, `src/lib/api.ts`, `src/components/ui/`.
+- **Key files**: `src/app/page.tsx`, `src/features/tasks/` (including `api.ts`), `src/lib/api-client.ts`, `src/components/ui/`.
 
 ### API (`apps/api`)
 
@@ -33,7 +33,7 @@ Compose service `mongo`. Not accessed from Next.js.
 
 ## Data Flow
 
-Browser TanStack Query → Nest `/api/*` with `x-user-id` → `DevAuthGuard` → `TasksService` (Mongoose, scoped to `userId`) → JSON matching shared `taskSchema`.
+Browser TanStack Query → `features/tasks/api.ts` (`api-client` fetch) → Nest `/api/*` with `x-user-id` → `DevAuthGuard` → `TasksService` (Mongoose, scoped to `userId`) → JSON matching shared `taskSchema`.
 
 ## External Integrations
 

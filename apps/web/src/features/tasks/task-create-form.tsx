@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { createTask } from '@/lib/api';
+import { createTask } from '@/features/tasks/api';
 import { STATUS_LABELS } from './status';
 
 export function TaskCreateForm() {

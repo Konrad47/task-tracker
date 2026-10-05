@@ -4,11 +4,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithQueryClient } from '@/test-utils';
 import { TaskCreateForm } from './task-create-form';
 
-vi.mock('@/lib/api', () => ({
+vi.mock('@/features/tasks/api', () => ({
   createTask: vi.fn(),
 }));
 
-import { createTask } from '@/lib/api';
+import { createTask } from '@/features/tasks/api';
 
 const createTaskMock = vi.mocked(createTask);
 
