@@ -21,7 +21,7 @@ import {
 import { CurrentUserParam } from '../auth/current-user.decorator';
 import type { CurrentUser } from '../auth/current-user';
 import { DevAuthGuard } from '../auth/dev-auth.guard';
-import { ZodValidationPipe } from '../common/zod-validation.pipe';
+import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')

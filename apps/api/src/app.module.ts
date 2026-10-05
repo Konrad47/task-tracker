@@ -2,10 +2,10 @@ import { Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LoggerModule } from 'nestjs-pino';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { createPinoHttpOptions } from './common/pino-http.options';
-import { HealthModule } from './health/health.module';
-import { TasksModule } from './tasks/tasks.module';
+import { HealthModule } from './modules/health/health.module';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
