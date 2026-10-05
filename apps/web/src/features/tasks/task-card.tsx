@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { deleteTask, updateTask } from '@/lib/api';
+import { deleteTask, updateTask } from '@/features/tasks/api';
 import { STATUS_LABELS } from './status';
 
 export function TaskCard({ task }: { task: Task }) {

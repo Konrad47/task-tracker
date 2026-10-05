@@ -5,14 +5,14 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithQueryClient } from '@/test-utils';
 import { TaskBoard } from './task-board';
 
-vi.mock('@/lib/api', () => ({
+vi.mock('@/features/tasks/api', () => ({
   fetchTasks: vi.fn(),
   createTask: vi.fn(),
   updateTask: vi.fn(),
   deleteTask: vi.fn(),
 }));
 
-import { fetchTasks } from '@/lib/api';
+import { fetchTasks } from '@/features/tasks/api';
 
 const fetchTasksMock = vi.mocked(fetchTasks);
 

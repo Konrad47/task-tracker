@@ -12,7 +12,7 @@ function jsonResponse(body: unknown, status = 200) {
   };
 }
 
-describe('api client', () => {
+describe('tasks api', () => {
   afterEach(() => {
     vi.unstubAllGlobals();
     vi.restoreAllMocks();

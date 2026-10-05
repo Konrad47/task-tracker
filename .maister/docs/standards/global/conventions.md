@@ -3,7 +3,7 @@
 ## Naming
 
 - **Established**: pnpm workspace names `apps/web`, `apps/api`, `packages/shared`; package names `@task-tracker/web`, `@task-tracker/api`, `@task-tracker/shared`.
-- **Established**: Nest files kebab-case (`tasks.service.ts`); Next feature folders under `src/features/`.
+- **Established**: Nest files kebab-case (`tasks.service.ts`); Nest feature modules under `apps/api/src/modules/`; Next feature folders under `src/features/`.
 
 ## Formatting and types
 

@@ -1,6 +1,6 @@
 # Maister knowledge base
 
-Last refreshed: 2026-09-16 (CI shared package build).
+Last refreshed: 2026-10-05 (API feature modules under `src/modules/`).
 
 ## Project
 
