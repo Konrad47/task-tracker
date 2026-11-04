@@ -7,8 +7,8 @@
 
 ## Formatting and types
 
-- **Required**: Prettier at the repo root (`.prettierrc.json`, `endOfLine: lf`). Both apps run Prettier through ESLint. ESLint in both apps; TypeScript strict in web and API (API `strictPropertyInitialization` is false).
-- **Established**: line endings LF (`.gitattributes`).
+- **Required**: Prettier at the repo root (`.prettierrc.json`, `endOfLine: auto`). Both apps run Prettier through ESLint. ESLint in both apps; TypeScript strict in web and API (API `strictPropertyInitialization` is false).
+- **Established**: Git stores line endings as LF (`.gitattributes` `eol=lf`). Prettier keeps the endings already in the file.
 - **Recommended**: do not format files you are not changing.
 
 ## Dependencies
