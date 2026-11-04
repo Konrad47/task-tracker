@@ -84,7 +84,7 @@ export class TasksService {
 
     if (input.status !== undefined && input.status !== existing.status) {
       try {
-        await this.events.publishStatusChange({
+        await this.events.publishStatusChanged({
           eventId: randomUUID(),
           userId,
           taskId: dto.id,

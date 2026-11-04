@@ -24,10 +24,10 @@ export class TaskEventsPublisher {
     });
   }
 
-  async publishStatusChange(event: TaskStatusChangedEvent): Promise<void> {
+  async publishStatusChanged(event: TaskStatusChangedEvent): Promise<void> {
     await this.client.send(
       new PublishCommand({
-        TargetArn: this.config.get<string>('TAKS_EVENTS_TOPIC_ARN'),
+        TopicArn: this.config.get<string>('TASK_EVENTS_TOPIC_ARN'),
         Message: JSON.stringify(event),
       }),
     );
