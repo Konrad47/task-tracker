@@ -3,6 +3,7 @@ import { type Model, Types } from 'mongoose';
 import { type PinoLogger } from 'nestjs-pino';
 import { TasksService } from './tasks.service';
 import { type TaskDocument } from './task.schema';
+import { type TaskEventsPublisher } from '../events/task-events.publisher';
 
 const CREATED_AT = new Date('2026-01-01T00:00:00.000Z');
 const UPDATED_OLDER = new Date('2026-02-01T00:00:00.000Z');
@@ -137,17 +138,26 @@ function createLogger() {
     setContext: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
+    error: jest.fn(),
+  };
+}
+
+function createPublisher() {
+  return {
+    publishStatusChanged: jest.fn().mockResolvedValue(undefined),
   };
 }
 
 function createService(seed: StoredTask[] = []) {
   const model = createInMemoryTaskModel(seed);
   const logger = createLogger();
+  const publisher = createPublisher();
   const service = new TasksService(
     model as unknown as Model<TaskDocument>,
     logger as unknown as PinoLogger,
+    publisher as unknown as TaskEventsPublisher,
   );
-  return { service, logger };
+  return { service, logger, publisher };
 }
 
 function seedTask(overrides: Partial<StoredTask> & { userId: string }): StoredTask {
@@ -260,7 +270,7 @@ describe('TasksService', () => {
 
   it('updates a owned task and logs the change', async () => {
     const id = new Types.ObjectId();
-    const { service, logger } = createService([
+    const { service, logger, publisher } = createService([
       seedTask({ _id: id, userId, title: 'Before', description: 'Old' }),
     ]);
 
@@ -269,6 +279,16 @@ describe('TasksService', () => {
       description: null,
       status: 'done',
     });
+
+    expect(publisher.publishStatusChanged).toHaveBeenCalledTimes(1);
+    expect(publisher.publishStatusChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId,
+        taskId: String(id),
+        from: 'todo',
+        to: 'done',
+      }),
+    );
 
     expect(result).toMatchObject({
       id: String(id),
@@ -309,5 +329,33 @@ describe('TasksService', () => {
 
     await expect(service.remove(userId, String(id))).rejects.toThrow(NotFoundException);
     expect(logger.warn).toHaveBeenCalledWith({ userId, taskId: String(id) }, 'Task not found');
+  });
+
+  it('does not publish when only the title changes', async () => {
+    const id = new Types.ObjectId();
+    const { service, publisher } = createService([seedTask({ _id: id, userId, title: 'Before' })]);
+
+    await service.update(userId, String(id), { title: 'After' });
+
+    expect(publisher.publishStatusChanged).not.toHaveBeenCalled();
+  });
+
+  it('does not publish when the status stays the same', async () => {
+    const id = new Types.ObjectId();
+    const { service, publisher } = createService([seedTask({ _id: id, userId, status: 'todo' })]);
+
+    await service.update(userId, String(id), { status: 'todo' });
+
+    expect(publisher.publishStatusChanged).not.toHaveBeenCalled();
+  });
+
+  it('does not publish when creating or removing a task', async () => {
+    const id = new Types.ObjectId();
+    const { service, publisher } = createService([seedTask({ _id: id, userId })]);
+
+    await service.create(userId, { title: 'New' });
+    await service.remove(userId, String(id));
+
+    expect(publisher.publishStatusChanged).not.toHaveBeenCalled();
   });
 });

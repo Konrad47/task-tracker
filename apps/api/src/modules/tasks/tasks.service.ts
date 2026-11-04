@@ -9,12 +9,15 @@ import type {
 import { Model, Types } from 'mongoose';
 import { PinoLogger } from 'nestjs-pino';
 import { Task, TaskDocument } from './task.schema';
+import { TaskEventsPublisher } from '../events/task-events.publisher';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class TasksService {
   constructor(
     @InjectModel(Task.name) private readonly taskModel: Model<TaskDocument>,
     private readonly logger: PinoLogger,
+    private readonly events: TaskEventsPublisher,
   ) {
     this.logger.setContext(TasksService.name);
   }
@@ -52,6 +55,12 @@ export class TasksService {
 
   async update(userId: string, id: string, input: UpdateTaskInput): Promise<TaskDto> {
     this.assertId(userId, id);
+    const existing = await this.taskModel.findOne({ _id: id, userId }).exec();
+    if (!existing) {
+      this.logNotFound(userId, id);
+      throw new NotFoundException('Task not found');
+    }
+
     const update: Record<string, unknown> = {};
     if (input.title !== undefined) {
       update.title = input.title;
@@ -72,6 +81,25 @@ export class TasksService {
     }
     const dto = this.toDto(task);
     this.logger.info({ userId, taskId: dto.id }, 'Task updated');
+
+    if (input.status !== undefined && input.status !== existing.status) {
+      try {
+        await this.events.publishStatusChange({
+          eventId: randomUUID(),
+          userId,
+          taskId: dto.id,
+          from: existing.status,
+          to: input.status,
+          at: new Date().toISOString(),
+        });
+      } catch (error) {
+        this.logger.error(
+          { err: error, userId, taskId: dto.id },
+          'Task status event was not published',
+        );
+      }
+    }
+
     return dto;
   }
 
