@@ -265,7 +265,10 @@ describe('TasksService', () => {
     expect(result.description).toBeNull();
     expect(result.userId).toBe(userId);
     expect(result.createdAt).toBe(CREATE_STAMP.toISOString());
-    expect(logger.info).toHaveBeenCalledWith({ userId, taskId: result.id }, 'Task created');
+    expect(logger.info).toHaveBeenCalledWith(
+      { userId, taskId: result.id, durationMs: expect.any(Number) },
+      'Task created',
+    );
   });
 
   it('updates a owned task and logs the change', async () => {
@@ -297,7 +300,10 @@ describe('TasksService', () => {
       status: 'done',
       updatedAt: UPDATE_STAMP.toISOString(),
     });
-    expect(logger.info).toHaveBeenCalledWith({ userId, taskId: String(id) }, 'Task updated');
+    expect(logger.info).toHaveBeenCalledWith(
+      { userId, taskId: String(id), durationMs: expect.any(Number) },
+      'Task updated',
+    );
   });
 
   it('does not update another user’s task', async () => {
