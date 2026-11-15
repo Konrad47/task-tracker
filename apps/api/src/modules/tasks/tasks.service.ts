@@ -91,6 +91,7 @@ export class TasksService {
           from: existing.status,
           to: input.status,
           at: new Date().toISOString(),
+          requestId: this.currentRequestId(),
         });
       } catch (error) {
         this.logger.error(
@@ -142,5 +143,11 @@ export class TasksService {
       createdAt: (task.get('createdAt') as Date).toISOString(),
       updatedAt: (task.get('updatedAt') as Date).toISOString(),
     };
+  }
+
+  private currentRequestId(): string {
+    const bindings = this.logger.logger?.bindings?.() as { requestId?: unknown } | undefined;
+    const requestId = bindings?.requestId;
+    return typeof requestId === 'string' && requestId.length > 0 ? requestId : randomUUID();
   }
 }

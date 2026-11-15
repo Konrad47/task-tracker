@@ -10,6 +10,7 @@ export type TaskStatusChangedEvent = {
   from: TaskStatus;
   to: TaskStatus;
   at: string;
+  requestId: string;
 };
 
 @Injectable()
