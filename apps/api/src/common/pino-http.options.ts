@@ -1,4 +1,5 @@
 import { type ConfigService } from '@nestjs/config';
+import { randomUUID } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Options } from 'pino-http';
 
@@ -34,5 +35,15 @@ export function createPinoHttpOptions(
             },
           },
         }),
+    genReqId: (req, res) => {
+      const header = req.headers['x-request-id'];
+      const incoming = Array.isArray(header) ? header[0] : header;
+      const requestId = (typeof incoming === 'string' && incoming.trim()) || randomUUID();
+      res.setHeader('x-request-id', requestId);
+      return requestId;
+    },
+    customProps: (req) => ({
+      requestId: req.id,
+    }),
   };
 }
