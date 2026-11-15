@@ -42,14 +42,16 @@ export class TasksService {
   }
 
   async create(userId: string, input: CreateTaskInput): Promise<TaskDto> {
-    const created = await this.taskModel.create({
-      title: input.title,
-      description: this.normalizeDescription(input.description),
-      status: input.status ?? 'todo',
-      userId,
-    });
-    const dto = this.toDto(created);
-    this.logger.info({ userId, taskId: dto.id }, 'Task created');
+    const { result, durationMs } = await this.durationWrapper(() =>
+      this.taskModel.create({
+        title: input.title,
+        description: this.normalizeDescription(input.description),
+        status: input.status ?? 'todo',
+        userId,
+      }),
+    );
+    const dto = this.toDto(result);
+    this.logger.info({ userId, taskId: dto.id, durationMs }, 'Task created');
     return dto;
   }
 
@@ -72,15 +74,15 @@ export class TasksService {
       update.status = input.status;
     }
 
-    const task = await this.taskModel
-      .findOneAndUpdate({ _id: id, userId }, update, { new: true })
-      .exec();
-    if (!task) {
+    const { result, durationMs } = await this.durationWrapper(() =>
+      this.taskModel.findOneAndUpdate({ _id: id, userId }, update, { new: true }).exec(),
+    );
+    if (!result) {
       this.logNotFound(userId, id);
       throw new NotFoundException('Task not found');
     }
-    const dto = this.toDto(task);
-    this.logger.info({ userId, taskId: dto.id }, 'Task updated');
+    const dto = this.toDto(result);
+    this.logger.info({ userId, taskId: dto.id, durationMs }, 'Task updated');
 
     if (input.status !== undefined && input.status !== existing.status) {
       try {
@@ -149,5 +151,15 @@ export class TasksService {
     const bindings = this.logger.logger?.bindings?.() as { requestId?: unknown } | undefined;
     const requestId = bindings?.requestId;
     return typeof requestId === 'string' && requestId.length > 0 ? requestId : randomUUID();
+  }
+
+  private async durationWrapper<T>(operation: () => Promise<T>) {
+    const started = performance.now();
+    const result = await operation();
+    const durationMs = Math.round(performance.now() - started);
+    return {
+      result,
+      durationMs,
+    };
   }
 }
