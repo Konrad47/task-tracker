@@ -16,7 +16,7 @@ docker compose up --build
 ```
 
 - Web: http://localhost:3000
-- API health: http://localhost:3001/api/health
+- API health: http://localhost:3001/api/health; ALB i Compose trafiają w port 3001, ścieżka `/api/health`.
 
 ## Local development
 
