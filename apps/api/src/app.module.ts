@@ -7,6 +7,7 @@ import { createPinoHttpOptions } from './common/pino-http.options';
 import { HealthModule } from './modules/health/health.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { EventsModule } from './modules/events/events.module';
+import { ActivityModule } from './modules/activity/activity.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { EventsModule } from './modules/events/events.module';
     HealthModule,
     TasksModule,
     EventsModule,
+    ActivityModule,
   ],
 })
 export class AppModule {}

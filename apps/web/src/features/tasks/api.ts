@@ -1,5 +1,6 @@
 import {
   API_ROUTES,
+  type TaskActivity,
   type CreateTaskInput,
   type Task,
   type TaskStatus,
@@ -28,4 +29,8 @@ export function updateTask(id: string, input: UpdateTaskInput) {
 
 export function deleteTask(id: string) {
   return request<void>(API_ROUTES.task(id), { method: 'DELETE' });
+}
+
+export function fetchTaskActivity(id: string) {
+  return request<TaskActivity[]>(API_ROUTES.taskActivity(id));
 }
