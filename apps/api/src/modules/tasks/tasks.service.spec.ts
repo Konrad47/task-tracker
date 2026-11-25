@@ -266,7 +266,7 @@ describe('TasksService', () => {
     expect(result.userId).toBe(userId);
     expect(result.createdAt).toBe(CREATE_STAMP.toISOString());
     expect(logger.info).toHaveBeenCalledWith(
-      { userId, taskId: result.id, durationMs: expect.any(Number) },
+      { userId, taskId: result.id, durationMs: expect.any(Number) as number },
       'Task created',
     );
   });
@@ -301,7 +301,7 @@ describe('TasksService', () => {
       updatedAt: UPDATE_STAMP.toISOString(),
     });
     expect(logger.info).toHaveBeenCalledWith(
-      { userId, taskId: String(id), durationMs: expect.any(Number) },
+      { userId, taskId: String(id), durationMs: expect.any(Number) as number },
       'Task updated',
     );
   });
