@@ -10,6 +10,7 @@ vi.mock('@/features/tasks/api', () => ({
   createTask: vi.fn(),
   updateTask: vi.fn(),
   deleteTask: vi.fn(),
+  fetchTaskActivity: vi.fn().mockResolvedValue([]),
 }));
 
 import { fetchTasks } from '@/features/tasks/api';

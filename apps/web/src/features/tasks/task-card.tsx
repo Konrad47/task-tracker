@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TASK_STATUSES, type Task, updateTaskSchema } from '@task-tracker/shared';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Badge } from '@/components/ui/badge';
@@ -12,12 +12,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { deleteTask, updateTask } from '@/features/tasks/api';
+import { deleteTask, fetchTaskActivity, updateTask } from '@/features/tasks/api';
 import { STATUS_LABELS } from './status';
 
 export function TaskCard({ task }: { task: Task }) {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState(false);
+  const activity = useQuery({
+    queryKey: ['task-activity', task.id],
+    queryFn: () => fetchTaskActivity(task.id),
+  });
 
   const form = useForm({
     resolver: zodResolver(updateTaskSchema),
@@ -28,20 +32,23 @@ export function TaskCard({ task }: { task: Task }) {
     },
   });
 
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: ['tasks'] });
+  const invalidateTasks = () => queryClient.invalidateQueries({ queryKey: ['tasks'] });
 
   const updateMutation = useMutation({
     mutationFn: (input: { title?: string; description?: string; status?: Task['status'] }) =>
       updateTask(task.id, input),
-    onSuccess: async () => {
+    onSuccess: async (_updated, input) => {
       setEditing(false);
-      await invalidate();
+      await invalidateTasks();
+      if (input.status !== undefined) {
+        await queryClient.invalidateQueries({ queryKey: ['task-activity', task.id] });
+      }
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteTask(task.id),
-    onSuccess: invalidate,
+    onSuccess: invalidateTasks,
   });
 
   return (
@@ -93,6 +100,11 @@ export function TaskCard({ task }: { task: Task }) {
               <h3 className="font-medium">{task.title}</h3>
               {task.description ? (
                 <p className="mt-1 text-sm text-zinc-600">{task.description}</p>
+              ) : null}
+              {activity.data?.[0] ? (
+                <p className="text-sm text-zinc-600">
+                  {STATUS_LABELS[activity.data[0].from]} → {STATUS_LABELS[activity.data[0].to]}
+                </p>
               ) : null}
             </div>
             <Badge>{STATUS_LABELS[task.status]}</Badge>
