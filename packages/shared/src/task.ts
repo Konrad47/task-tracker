@@ -5,26 +5,35 @@ export const taskStatusSchema = z.enum(TASK_STATUSES);
 export type TaskStatus = z.infer<typeof taskStatusSchema>;
 
 export const createTaskSchema = z.object({
-    title: z.string().trim().min(1, 'Title is required').max(200),
-    description: z.string().trim().max(2000).optional().or(z.literal('')),
-    status: taskStatusSchema.optional(),
+  title: z.string().trim().min(1, 'Title is required').max(200),
+  description: z.string().trim().max(2000).optional().or(z.literal('')),
+  status: taskStatusSchema.optional(),
 });
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 
 export const updateTaskSchema = z.object({
-    title: z.string().trim().min(1).max(200).optional(),
-    description: z.string().trim().max(2000).optional().nullable(),
-    status: taskStatusSchema.optional(),
+  title: z.string().trim().min(1).max(200).optional(),
+  description: z.string().trim().max(2000).optional().nullable(),
+  status: taskStatusSchema.optional(),
 });
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>;
 
 export const taskSchema = z.object({
-    id: z.string(),
-    title: z.string(),
-    description: z.string().nullable(),
-    status: taskStatusSchema,
-    userId: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
+  id: z.string(),
+  title: z.string(),
+  description: z.string().nullable(),
+  status: taskStatusSchema,
+  userId: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 export type Task = z.infer<typeof taskSchema>;
+
+export const taskActivitySchema = z.object({
+  eventId: z.string(),
+  taskId: z.string(),
+  from: taskStatusSchema,
+  to: taskStatusSchema,
+  at: z.string(),
+});
+export type TaskActivity = z.infer<typeof taskActivitySchema>;

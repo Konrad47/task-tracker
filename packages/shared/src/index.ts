@@ -5,4 +5,5 @@ export const API_ROUTES = {
   health: `${API_PREFIX}/health`,
   tasks: `${API_PREFIX}/tasks`,
   task: (id: string) => `${API_PREFIX}/tasks/${id}`,
+  taskActivity: (id: string) => `${API_PREFIX}/tasks/${id}/activity`,
 } as const;
